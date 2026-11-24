@@ -1,0 +1,800 @@
+{
+  "extName": {
+    "message": "Monitor de uso do Claude: limites de sessão e semanais, créditos, alertas",
+    "description": "Extension name on the Chrome Web Store and Edge Add-ons (max 75 characters)."
+  },
+  "extNameFirefox": {
+    "message": "Monitor de uso do Claude: limites e alertas",
+    "description": "Extension name on Firefox Add-ons (max 50 characters)."
+  },
+  "extNameEdge": {
+    "message": "Claude Monitor: rastreador de uso",
+    "description": "Extension name on Microsoft Edge Add-ons (short, no feature list)."
+  },
+  "extDescription": {
+    "message": "Seus limites de uso do Claude ao vivo: % da sessão e semanal, contagem regressiva e alertas em 80/95%. Free, Pro, Max, Claude Code.",
+    "description": "Short description shown in the stores and the browser (max 132 characters)."
+  },
+  "intervalTitle": {
+    "message": "Intervalo de atualização"
+  },
+  "displayOptions": {
+    "message": "Opções de exibição"
+  },
+  "metrics": {
+    "message": "Métricas"
+  },
+  "selectAll": {
+    "message": "Selecionar tudo"
+  },
+  "deselectAll": {
+    "message": "Desmarcar tudo"
+  },
+  "fableWeekly": {
+    "message": "Fable 5 semanal"
+  },
+  "opusWeekly": {
+    "message": "Opus semanal"
+  },
+  "sonnetWeekly": {
+    "message": "Sonnet semanal"
+  },
+  "routineRuns": {
+    "message": "Execuções de rotinas"
+  },
+  "extraCredits": {
+    "message": "Créditos extras"
+  },
+  "menuDesign": {
+    "message": "Design"
+  },
+  "layoutClassic": {
+    "message": "Clássico"
+  },
+  "layoutClassicDesc": {
+    "message": "Design original"
+  },
+  "layoutMixed": {
+    "message": "Misto"
+  },
+  "layoutMixedDesc": {
+    "message": "Anéis + lista"
+  },
+  "layoutGrid": {
+    "message": "Grade"
+  },
+  "layoutGridDesc": {
+    "message": "Cartões com anéis"
+  },
+  "layoutList": {
+    "message": "Lista"
+  },
+  "layoutListDesc": {
+    "message": "Linhas compactas"
+  },
+  "trendLine": {
+    "message": "Linha de tendência"
+  },
+  "trendWaiting": {
+    "message": "Ainda há pouco histórico"
+  },
+  "trendWaitingFor": {
+    "message": "$P1$: ainda há pouco histórico",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "paceMarker": {
+    "message": "Marcador de ritmo"
+  },
+  "menuTheme": {
+    "message": "Tema"
+  },
+  "themeAria": {
+    "message": "Tema $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "settingsHistory": {
+    "message": "Configurações e histórico"
+  },
+  "refreshTitle": {
+    "message": "Atualizar dados de uso"
+  },
+  "signedOutStale": {
+    "message": "Sessão encerrada: dados desatualizados"
+  },
+  "lastUpdateUnknown": {
+    "message": "Última atualização desconhecida"
+  },
+  "signIn": {
+    "message": "Entrar →"
+  },
+  "couldntRefresh": {
+    "message": "Não foi possível atualizar: dados desatualizados"
+  },
+  "retry": {
+    "message": "Tentar de novo"
+  },
+  "currentSession": {
+    "message": "Sessão atual"
+  },
+  "weeklyAll": {
+    "message": "Semanal · todos os modelos"
+  },
+  "weeklyIncludes": {
+    "message": "Inclui Fable 5, Opus, Sonnet e Haiku"
+  },
+  "subcapNote": {
+    "message": "Os limites por modelo reiniciam junto com o semanal"
+  },
+  "dailyRoutineRuns": {
+    "message": "Execuções diárias de rotinas"
+  },
+  "rateInStore": {
+    "message": "Avalie na loja"
+  },
+  "notNow": {
+    "message": "Agora não"
+  },
+  "waitlistText": {
+    "message": "Pro: seus limites no celular"
+  },
+  "joinWaitlist": {
+    "message": "Entrar na lista de espera →"
+  },
+  "dontShowAgain": {
+    "message": "Não mostrar de novo"
+  },
+  "dismiss": {
+    "message": "Fechar"
+  },
+  "alsoOnWindows": {
+    "message": "Também no Windows"
+  },
+  "winPromoBody": {
+    "message": "Seu uso ao lado do relógio, com o navegador fechado."
+  },
+  "tryFree": {
+    "message": "Teste grátis →"
+  },
+  "neverUpdated": {
+    "message": "Nunca atualizado"
+  },
+  "opensClaudeTab": {
+    "message": "Abre o claude.ai em uma nova aba"
+  },
+  "openUsagePage": {
+    "message": "Abrir página de uso"
+  },
+  "freeTitle": {
+    "message": "Veja seus limites do plano Free"
+  },
+  "freeTextOff": {
+    "message": "A página de uso do Claude não está disponível no plano Free, mas cada resposta ainda traz seus limites. Ative a barra no claude.ai e eles aparecem aqui depois da sua próxima mensagem."
+  },
+  "freeTextOn": {
+    "message": "A barra no claude.ai está ativada. Envie uma mensagem lá e seus limites aparecem aqui."
+  },
+  "turnOn": {
+    "message": "Ativar"
+  },
+  "alertsNudgeText": {
+    "message": "Receba alertas em $P1$% e $P2$%",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "openClaude": {
+    "message": "Abrir claude.ai"
+  },
+  "noDataLine1": {
+    "message": "Ainda não há dados de uso."
+  },
+  "noDataLine2": {
+    "message": "Clique abaixo para carregar seus dados."
+  },
+  "openUsagePageBtn": {
+    "message": "Abrir a página de uso do Claude"
+  },
+  "resettingSoon": {
+    "message": "Reinicia em breve"
+  },
+  "resetsIn": {
+    "message": "Reinicia em $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "durDH": {
+    "message": "$P1$ d $P2$ h",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "durHM": {
+    "message": "$P1$ h $P2$ min",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "durH": {
+    "message": "$P1$ h",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "durM": {
+    "message": "$P1$ min",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "intervalOpt": {
+    "message": "$P1$m",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "justUpdated": {
+    "message": "Atualizado agora"
+  },
+  "updatedAgo": {
+    "message": "Atualizado há $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "updatedAt": {
+    "message": "Atualizado em $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastUpdateAgo": {
+    "message": "Última atualização há $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastUpdateAt": {
+    "message": "Última atualização: $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastUpdateNow": {
+    "message": "Última atualização: agora"
+  },
+  "noDataCaptured": {
+    "message": "Ainda não há dados"
+  },
+  "notYetUsed": {
+    "message": "Ainda não usado"
+  },
+  "weeklyLimitLbl": {
+    "message": "Limite semanal"
+  },
+  "resetTimeUnknown": {
+    "message": "Horário de reinício desconhecido"
+  },
+  "resetDayUnknown": {
+    "message": "Dia de reinício desconhecido"
+  },
+  "balance": {
+    "message": "Saldo $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "resetsMonthly": {
+    "message": "Reinicia todo mês"
+  },
+  "sparkSession": {
+    "message": "Sessão"
+  },
+  "sparkWeekly": {
+    "message": "Semanal"
+  },
+  "sparkSpent": {
+    "message": "Gasto neste mês"
+  },
+  "sparkRange": {
+    "message": "$P1$: de $P2$ a $P3$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      },
+      "p3": {
+        "content": "$3"
+      }
+    }
+  },
+  "spendLimitMonthly": {
+    "message": "Limite de gasto mensal atingido"
+  },
+  "spendLimitOrg": {
+    "message": "Limite de gasto atingido (organização)"
+  },
+  "spendLimit": {
+    "message": "Limite de gasto atingido"
+  },
+  "resetsDaily": {
+    "message": "Reinicia todo dia"
+  },
+  "reviewAlert": {
+    "message": "Avisou a tempo? Avalie"
+  },
+  "reviewFree": {
+    "message": "Vendo seus limites Free? Avalie"
+  },
+  "reviewDays": {
+    "message": "Está sendo útil? Avalie"
+  },
+  "reviewWhereEdge": {
+    "message": "Role a página da loja para baixo"
+  },
+  "errAuth": {
+    "message": "Falha ao atualizar: entre no claude.ai"
+  },
+  "errOrg": {
+    "message": "Falha ao atualizar: nenhuma organização encontrada"
+  },
+  "errFree": {
+    "message": "Plano Free: atualiza após cada mensagem"
+  },
+  "errRejected": {
+    "message": "Falha ao atualizar: resposta inesperada do claude.ai"
+  },
+  "errUnreachable": {
+    "message": "Falha ao atualizar: claude.ai inacessível"
+  },
+  "optTitle": {
+    "message": "Claude Monitor: Configurações"
+  },
+  "optNotifications": {
+    "message": "Notificações"
+  },
+  "optAlertMe": {
+    "message": "Avisar quando o uso passar de um limite"
+  },
+  "optWarn": {
+    "message": "Limite de aviso"
+  },
+  "optCrit": {
+    "message": "Limite crítico"
+  },
+  "optNotifHint": {
+    "message": "Vale para a sessão, o limite semanal e os limites por modelo. Cada alerta dispara uma vez por período."
+  },
+  "optSendTest": {
+    "message": "Enviar notificação de teste"
+  },
+  "optOnClaude": {
+    "message": "No claude.ai"
+  },
+  "optShowBar": {
+    "message": "Mostrar uma barra de uso acima da caixa de chat"
+  },
+  "optBarHint": {
+    "message": "Desativada por padrão. Ao ativar, ela adiciona a permissão de scripting (o Chrome já concede o claude.ai pelos endpoints de uso). A barra extrai apenas os números de uso que o Claude anexa a cada resposta; nunca guarda nem envia suas mensagens. No plano Free, é o único lugar onde seus limites aparecem."
+  },
+  "optHistory": {
+    "message": "Histórico"
+  },
+  "optKeepFor": {
+    "message": "Manter histórico por"
+  },
+  "optDays": {
+    "message": "$P1$ dias",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "optSnapshots": {
+    "message": "Registros salvos"
+  },
+  "optHistoryHint": {
+    "message": "Uso, gasto pago e saldo pré-pago são registrados localmente a cada atualização bem-sucedida, mais ou menos a cada 10 minutos. O histórico fica só neste navegador. Na exportação, um valor ausente fica vazio: significa que o dado não estava disponível, não que era zero."
+  },
+  "optExportJson": {
+    "message": "Exportar JSON"
+  },
+  "optExportCsv": {
+    "message": "Exportar CSV"
+  },
+  "optClearHistory": {
+    "message": "Limpar histórico"
+  },
+  "optReviewTitle": {
+    "message": "Está sendo útil?"
+  },
+  "optReviewText": {
+    "message": "Uma avaliação curta é a principal forma de outros usuários do Claude encontrarem esta extensão. Leva um minuto."
+  },
+  "optLeaveReview": {
+    "message": "Deixar uma avaliação ★★★★★"
+  },
+  "optProTitle": {
+    "message": "O Pro está chegando."
+  },
+  "optProText": {
+    "message": "Seus limites do Claude no celular e um aviso no Slack ou Discord antes de atingi-los. Opcional e pago; esta extensão continua gratuita."
+  },
+  "optWinTitle": {
+    "message": "Também no Windows."
+  },
+  "optWinText": {
+    "message": "O UsagePeek mostra seu uso ao lado do relógio com o navegador fechado e reabre seus projetos do Claude Code assim que um limite reinicia."
+  },
+  "optTryFree7": {
+    "message": "Teste grátis por 7 dias →"
+  },
+  "stPermDenied": {
+    "message": "Permissão negada"
+  },
+  "stSaved": {
+    "message": "Salvo"
+  },
+  "stHistoryCleared": {
+    "message": "Histórico limpo"
+  },
+  "stNoHistory": {
+    "message": "Ainda não há histórico"
+  },
+  "stExported": {
+    "message": "Exportado"
+  },
+  "testSuffix": {
+    "message": "(teste)"
+  },
+  "nbSession": {
+    "message": "Sessão do Claude"
+  },
+  "nbWeekly": {
+    "message": "Limite semanal do Claude"
+  },
+  "nbFable": {
+    "message": "Limite semanal do Fable 5"
+  },
+  "nbOpus": {
+    "message": "Limite semanal do Opus"
+  },
+  "nbSonnet": {
+    "message": "Limite semanal do Sonnet"
+  },
+  "nbDesign": {
+    "message": "Limite semanal do Claude Design"
+  },
+  "notifTitle": {
+    "message": "$P1$ em $P2$%",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "almostResets": {
+    "message": "Quase no limite, reinicia em $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "almostLimit": {
+    "message": "Quase no limite"
+  },
+  "approaching": {
+    "message": "Chegando ao limite"
+  },
+  "barTitle": {
+    "message": "$P1$: $P2$% usado",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "barTitleReset": {
+    "message": "$P1$: $P2$% usado, reinicia em $P3$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      },
+      "p3": {
+        "content": "$3"
+      }
+    }
+  },
+  "barStale": {
+    "message": "desatualizado"
+  },
+  "barFreeWaiting": {
+    "message": "Seus limites do plano Free aparecem depois da sua próxima mensagem"
+  },
+  "barNotLoaded": {
+    "message": "Uso ainda não carregado"
+  },
+  "barAria": {
+    "message": "Uso do Claude"
+  },
+  "tipResetsAt": {
+    "message": "$P1$: $P2$% usado, reinicia $P3$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      },
+      "p3": {
+        "content": "$3"
+      }
+    }
+  },
+  "tipSignIn": {
+    "message": "Entre no claude.ai para atualizar"
+  },
+  "tipFreeBarOff": {
+    "message": "Ative a barra para ver seus limites do plano Free"
+  },
+  "notifResetTitle": {
+    "message": "Sessão do Claude reiniciada"
+  },
+  "notifResetBody": {
+    "message": "Sua sessão do Claude voltou a 0%."
+  },
+  "notifResetWeeklyTitle": {
+    "message": "$P1$ reiniciado",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "notifResetWeeklyBody": {
+    "message": "Voltou a 0%."
+  },
+  "forecastLine": {
+    "message": "Neste ritmo: limite ~$P1$ (reinício $P2$)",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "forecastAt": {
+    "message": "Neste ritmo: limite ~$P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "barBrandTitle": {
+    "message": "Claude Monitor (extensão do navegador, não é da Anthropic): clique para ver os detalhes"
+  },
+  "barForecastShort": {
+    "message": "limite ~$P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "msgsLeft": {
+    "message": "≈ $P1$ msgs restantes",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "msgsLeftTitle": {
+    "message": "Estimado a partir das suas últimas $P1$ mensagens; varia conforme o modelo e o tamanho",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "paceEven": {
+    "message": "Ritmo constante até o reinício: $P1$% a esta altura",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "paceAhead": {
+    "message": "Acima do ritmo constante ($P1$% a esta altura)",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "paceWithin": {
+    "message": "Dentro do ritmo constante ($P1$% a esta altura)",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "barPillHide": {
+    "message": "Ocultar até recarregar a página"
+  },
+  "wcPageTitle": {
+    "message": "Boas-vindas ao Claude Monitor"
+  },
+  "wcIntro": {
+    "message": "Alguns passos rápidos e seus limites do Claude ficam à vista enquanto você trabalha."
+  },
+  "wcSignTitle": {
+    "message": "Entre no Claude"
+  },
+  "wcSignChecking": {
+    "message": "Verificando seu login no claude.ai…"
+  },
+  "wcSignOk": {
+    "message": "Conectado ao claude.ai"
+  },
+  "wcSignNeeded": {
+    "message": "O Claude Monitor lê seus limites pelo seu login no claude.ai. Entre e depois volte para esta aba."
+  },
+  "wcSignBtn": {
+    "message": "Entrar no claude.ai"
+  },
+  "wcBarTitle": {
+    "message": "Mostrar meus limites dentro do Claude"
+  },
+  "wcBarNote": {
+    "message": "Só no claude.ai. Extrai apenas os números de uso de cada resposta; nunca guarda nem envia suas mensagens. Desative quando quiser."
+  },
+  "wcBarOn": {
+    "message": "Ativada. Seus limites aparecem acima da caixa de chat no claude.ai."
+  },
+  "wcBarDenied": {
+    "message": "Não foi ativada. Você pode fazer isso depois em Configurações."
+  },
+  "wcPinTitle": {
+    "message": "Fixe na barra de ferramentas"
+  },
+  "wcPinHow": {
+    "message": "Clique no ícone de peça de quebra-cabeça na barra de ferramentas e depois no alfinete ao lado do ícone laranja de pulso."
+  },
+  "wcPinHowEdge": {
+    "message": "Clique no ícone de peça de quebra-cabeça na barra de ferramentas e depois no olho ao lado do ícone laranja de pulso."
+  },
+  "wcPinHowFirefox": {
+    "message": "Clique no ícone de peça de quebra-cabeça na barra de ferramentas, depois na engrenagem ao lado do ícone laranja de pulso e em Fixar na barra de ferramentas."
+  },
+  "wcPinOk": {
+    "message": "Fixada. O indicador mostra sua sessão de relance."
+  },
+  "wcAlertsOk": {
+    "message": "Os alertas estão ativados."
+  },
+  "wcFreeNote": {
+    "message": "No plano Free, a barra é o único lugar onde seus limites aparecem."
+  },
+  "wcDone": {
+    "message": "Concluir"
+  },
+  "whatsNewTitle": {
+    "message": "Novidades da v$P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "wn121Bar": {
+    "message": "Seus limites acima da caixa de chat, agora também no Claude Code no claude.ai"
+  },
+  "wn121Pace": {
+    "message": "Se no seu ritmo você vai atingir o limite antes do reinício, por volta de que horas, e um alerta quando uma sessão muito usada reinicia"
+  },
+  "wn121Msgs": {
+    "message": "Com a barra ativada: estimativa de mensagens restantes na sua sessão"
+  },
+  "wnTurnOnBar": {
+    "message": "Ativar a barra"
+  },
+  "pinHintText": {
+    "message": "Fixe o Claude Monitor para manter o indicador à vista"
+  },
+  "pinHintHow": {
+    "message": "Ícone de quebra-cabeça e depois o alfinete ao lado do ícone laranja"
+  },
+  "pinHintHowEdge": {
+    "message": "Ícone de quebra-cabeça e depois o olho ao lado do ícone laranja"
+  },
+  "pinHintHowFirefox": {
+    "message": "Ícone de quebra-cabeça, a engrenagem ao lado do ícone laranja e Fixar na barra de ferramentas"
+  },
+  "somethingWrong": {
+    "message": "Algo errado?"
+  },
+  "emptySignedOutTitle": {
+    "message": "Entre no claude.ai"
+  },
+  "emptySignedOutText": {
+    "message": "O Claude Monitor lê seus limites pelo seu login no claude.ai. Entre e abra esta janela de novo."
+  },
+  "emptyOrgTitle": {
+    "message": "Nenhuma organização do Claude encontrada para esta conta"
+  },
+  "emptyOrgText": {
+    "message": "Entre no claude.ai com a conta que você usa para conversar e tente de novo."
+  },
+  "emptyFailTitle": {
+    "message": "Ainda não foi possível ler seu uso"
+  },
+  "emptyLoading": {
+    "message": "Lendo seu uso no claude.ai…"
+  },
+  "orgSelectTitle": {
+    "message": "Organização do Claude exibida"
+  },
+  "optNotifHintReset": {
+    "message": "Vale para a sessão, o limite semanal e os limites por modelo. Cada alerta dispara uma vez por período, e mais uma vez quando qualquer um deles reinicia depois de passar do limite de aviso."
+  }
+}

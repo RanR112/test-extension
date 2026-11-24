@@ -1,0 +1,372 @@
+// ─── Claude Usage Monitor: Options ───────────────────────────────────────────
+// Notification settings, stored under `notifSettings`. The background worker
+// re-reads them on every poll, so changes apply on the next refresh.
+
+const DEFAULTS = { enabled: true, warnAt: 80, critAt: 95 };
+
+// Strings live in _locales/<lang>/messages.json; the browser picks the locale.
+function msg(key, ...subs) {
+  return chrome.i18n.getMessage(key, subs.map(String)) || key;
+}
+
+document.documentElement.lang = chrome.i18n.getUILanguage();
+document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = msg(el.dataset.i18n); });
+document.querySelectorAll('#retentionDays option').forEach(opt => { opt.textContent = msg('optDays', opt.value); });
+
+const enabledEl = document.getElementById('notifEnabled');
+const warnEl    = document.getElementById('warnAt');
+const critEl    = document.getElementById('critAt');
+const testBtn   = document.getElementById('testBtn');
+const statusEl  = document.getElementById('status');
+
+function clampThreshold(value, fallback) {
+  const num = Math.round(Number(value));
+  if (!Number.isFinite(num)) return fallback;
+  return Math.min(100, Math.max(1, num));
+}
+
+// The stored on/off choice, kept apart from the checkbox: the box can read off
+// only because the permission is missing, and a threshold edit must not turn
+// that into an explicit "off".
+let storedEnabled = DEFAULTS.enabled;
+
+// Alerts default to on, but they can only fire once the optional permission is
+// granted, so the toggle shows both together: a fresh install reads as off.
+function renderNotifSettings() {
+  chrome.storage.local.get('notifSettings', ({ notifSettings }) => {
+    const s = { ...DEFAULTS, ...(notifSettings || {}) };
+    storedEnabled = Boolean(s.enabled);
+    chrome.permissions.contains({ permissions: ['notifications'] }, (granted) => {
+      enabledEl.checked = Boolean(s.enabled && granted);
+    });
+    warnEl.value = clampThreshold(s.warnAt, DEFAULTS.warnAt);
+    critEl.value = clampThreshold(s.critAt, DEFAULTS.critAt);
+  });
+}
+
+renderNotifSettings();
+
+let statusTimer = null;
+
+function flashStatus(text) {
+  statusEl.textContent = text;
+  clearTimeout(statusTimer);
+  statusTimer = setTimeout(() => { statusEl.textContent = ''; }, 1500);
+}
+
+// `notifications` is an optional permission, requested from a user gesture the
+// first time notifications are turned on. Chrome no longer disables the whole
+// extension on update because the permission isn't required up front.
+// Requested directly, with no contains() first: Firefox only honours it while
+// the click is still being handled, and one already granted resolves true
+// without a prompt.
+function ensureNotifPermission() {
+  return new Promise((resolve) => {
+    chrome.permissions.request({ permissions: ['notifications'] }, (granted) => {
+      void chrome.runtime.lastError;
+      resolve(Boolean(granted));
+    });
+  });
+}
+
+async function save(e) {
+  // Only the checkbox switches alerts on or off; a threshold edit keeps the
+  // stored choice.
+  const fromToggle = e?.target === enabledEl;
+  // Turning notifications on needs the optional permission; if the user denies
+  // it, revert the toggle and don't persist an enabled state we can't honor.
+  if (fromToggle && enabledEl.checked) {
+    const granted = await ensureNotifPermission();
+    if (!granted) {
+      enabledEl.checked = false;
+      flashStatus(msg('stPermDenied'));
+      return;
+    }
+  }
+  const warnAt = clampThreshold(warnEl.value, DEFAULTS.warnAt);
+  // The critical threshold can't sit below the warning one.
+  const critAt = Math.max(warnAt, clampThreshold(critEl.value, DEFAULTS.critAt));
+  warnEl.value = warnAt;
+  critEl.value = critAt;
+  if (fromToggle) storedEnabled = enabledEl.checked;
+  chrome.storage.local.set(
+    { notifSettings: { enabled: storedEnabled, warnAt, critAt } },
+    () => flashStatus(msg('stSaved')),
+  );
+}
+
+[enabledEl, warnEl, critEl].forEach(el => el.addEventListener('change', save));
+
+testBtn.addEventListener('click', async () => {
+  if (!(await ensureNotifPermission())) { flashStatus(msg('stPermDenied')); return; }
+  renderNotifSettings();   // granting it here also switches alerts on if they were left on
+  chrome.notifications.create('usage-test', {
+    type: 'basic',
+    iconUrl: 'icons/icon128.png',
+    title: msg('notifTitle', msg('nbSession'), 82),
+    message: `${msg('resetsIn', msg('durHM', 1, 23))} ${msg('testSuffix')}`,
+  });
+});
+
+// ─── On-page bar ─────────────────────────────────────────────────────────────
+// Both permissions are optional and requested here, from the click. Turning the
+// bar off gives `scripting` back instead of just hiding it.
+
+const PAGE_BAR_PERMS = { origins: ['https://claude.ai/*'], permissions: ['scripting'] };
+const pageBarEl = document.getElementById('pageBarEnabled');
+
+function renderPageBar() {
+  chrome.storage.local.get('pageBar', ({ pageBar }) => {
+    chrome.permissions.contains(PAGE_BAR_PERMS, (granted) => {
+      pageBarEl.checked = Boolean(pageBar?.enabled && granted);
+    });
+  });
+}
+
+pageBarEl.addEventListener('change', () => {
+  if (pageBarEl.checked) {
+    chrome.permissions.request(PAGE_BAR_PERMS, (granted) => {
+      if (!granted) {
+        pageBarEl.checked = false;
+        flashStatus(msg('stPermDenied'));
+        return;
+      }
+      chrome.storage.local.set({ pageBar: { enabled: true } }, () => flashStatus(msg('stSaved')));
+    });
+  } else {
+    // Chrome ignores the path in host permissions, so the required API hosts
+    // already grant claude.ai/* and a remove that names it is refused whole
+    // ("You cannot remove required permissions"), which used to leave
+    // `scripting` granted. Scripting goes on its own, after the scripts are
+    // unregistered: registrations outlive the permission and can't be removed
+    // without it. The origin is still asked for, for browsers that grant it
+    // apart.
+    chrome.storage.local.set({ pageBar: { enabled: false } }, async () => {
+      try { await chrome.scripting?.unregisterContentScripts(); } catch { /* scripting not granted */ }
+      chrome.permissions.remove({ permissions: PAGE_BAR_PERMS.permissions }, () => {
+        void chrome.runtime.lastError;
+        chrome.permissions.remove({ origins: PAGE_BAR_PERMS.origins }, () => {
+          void chrome.runtime.lastError;
+          flashStatus(msg('stSaved'));
+        });
+      });
+    });
+  }
+});
+
+renderPageBar();
+
+// ─── History ─────────────────────────────────────────────────────────────────
+// The series is written by the background worker under `usageHistory`. Here we
+// only expose retention, the sample count, the export and the clear action.
+
+const HISTORY_KEY = 'usageHistory';
+const HISTORY_DEFAULT_DAYS = 30;
+const EXPORT_SCHEMA = 'claude-usage-monitor.history/1';
+const HISTORY_BUCKETS = ['session', 'weekly', 'fable', 'opus', 'sonnet', 'design'];
+
+const retentionEl  = document.getElementById('retentionDays');
+const countEl      = document.getElementById('historyCount');
+const exportJsonBtn = document.getElementById('exportJsonBtn');
+const exportCsvBtn  = document.getElementById('exportCsvBtn');
+const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+
+function readHistory() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(HISTORY_KEY, (stored) => {
+      resolve(Array.isArray(stored[HISTORY_KEY]) ? stored[HISTORY_KEY] : []);
+    });
+  });
+}
+
+async function refreshHistoryCount() {
+  countEl.textContent = String((await readHistory()).length);
+}
+
+chrome.storage.local.get('historySettings', ({ historySettings }) => {
+  const days = Number(historySettings?.retentionDays);
+  retentionEl.value = String([7, 14, 30].includes(days) ? days : HISTORY_DEFAULT_DAYS);
+});
+
+refreshHistoryCount();
+
+retentionEl.addEventListener('change', () => {
+  const retentionDays = Number(retentionEl.value) || HISTORY_DEFAULT_DAYS;
+  chrome.storage.local.set({ historySettings: { retentionDays } }, () => {
+    // Shortening the window must drop the excess now, not on the next poll.
+    chrome.runtime.sendMessage({ type: 'PRUNE_HISTORY' }, () => {
+      void chrome.runtime.lastError;   // worker asleep → prune happens on next append
+      refreshHistoryCount();
+      flashStatus(msg('stSaved'));
+    });
+  });
+});
+
+clearHistoryBtn.addEventListener('click', () => {
+  chrome.storage.local.remove(HISTORY_KEY, () => {
+    refreshHistoryCount();
+    flashStatus(msg('stHistoryCleared'));
+  });
+});
+
+function isoOrNull(epochMs) {
+  return Number.isFinite(epochMs) ? new Date(epochMs).toISOString() : null;
+}
+
+// Self-describing export: every money amount carries its currency and the unit
+// it is expressed in, and a missing reading is null, never 0.
+function toExportSample(sample) {
+  const buckets = {};
+  for (const key of HISTORY_BUCKETS) {
+    buckets[key] = {
+      utilization: sample?.buckets?.[key]?.pct ?? null,
+      resetsAt: isoOrNull(sample?.buckets?.[key]?.reset),
+    };
+  }
+  return {
+    capturedAt: isoOrNull(sample?.t),
+    clientVersion: sample?.v ?? null,
+    plan: sample?.plan ?? null,
+    stale: Boolean(sample?.stale),
+    buckets,
+    spend: sample?.spend
+      ? {
+          used: sample.spend.used ?? null,
+          limit: sample.spend.limit ?? null,
+          currency: sample.spend.currency ?? null,
+          source: sample.spend.source ?? null,
+          readAt: isoOrNull(sample.spend.at),
+        }
+      : null,
+    prepaidBalance: sample?.prepaid
+      ? { amount: sample.prepaid.amount ?? null, currency: sample.prepaid.currency ?? null, readAt: isoOrNull(sample.prepaid.at) }
+      : null,
+  };
+}
+
+function buildJsonExport(history) {
+  return JSON.stringify({
+    schema: EXPORT_SCHEMA,
+    exportedAt: new Date().toISOString(),
+    client: {
+      name: 'claude-usage-monitor-extension',
+      version: chrome.runtime.getManifest().version,
+    },
+    amountsIn: 'major',
+    minorUnitsPerMajor: 100,
+    notes: 'A null value means the reading was unavailable, never zero. Gaps in the '
+         + 'series mean the refresh failed. Amounts are as reported by the provider. '
+         + 'readAt is when an amount was read; balances are re-read every 30 minutes.',
+    samples: history.map(toExportSample),
+  }, null, 2);
+}
+
+const CSV_COLUMNS = [
+  'captured_at', 'client_version', 'plan',
+  ...HISTORY_BUCKETS.flatMap(key => [`${key}_utilization`, `${key}_resets_at`]),
+  'spend_used', 'spend_limit', 'spend_currency', 'spend_source',
+  'prepaid_amount', 'prepaid_currency',
+  'amounts_in', 'minor_units_per_major',
+  'spend_read_at', 'prepaid_read_at',
+];
+
+function csvCell(value) {
+  // Empty cell means "no data". CSV has no null, so this is stated in the header
+  // comment of the JSON export and in the options page copy.
+  if (value === null || value === undefined) return '';
+  const text = String(value);
+  return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+}
+
+function buildCsvExport(history) {
+  const rows = [CSV_COLUMNS.join(',')];
+  for (const sample of history) {
+    const s = toExportSample(sample);
+    const cells = [
+      s.capturedAt, s.clientVersion, s.plan,
+      ...HISTORY_BUCKETS.flatMap(key => [s.buckets[key].utilization, s.buckets[key].resetsAt]),
+      s.spend?.used ?? null, s.spend?.limit ?? null, s.spend?.currency ?? null, s.spend?.source ?? null,
+      s.prepaidBalance?.amount ?? null, s.prepaidBalance?.currency ?? null,
+      'major', 100,
+      s.spend?.readAt ?? null, s.prepaidBalance?.readAt ?? null,
+    ];
+    rows.push(cells.map(csvCell).join(','));
+  }
+  return rows.join('\n');
+}
+
+function downloadFile(filename, mime, text) {
+  const url = URL.createObjectURL(new Blob([text], { type: mime }));
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function exportStamp() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+exportJsonBtn.addEventListener('click', async () => {
+  const history = await readHistory();
+  if (!history.length) { flashStatus(msg('stNoHistory')); return; }
+  downloadFile(`claude-usage-history-${exportStamp()}.json`, 'application/json', buildJsonExport(history));
+  flashStatus(msg('stExported'));
+});
+
+exportCsvBtn.addEventListener('click', async () => {
+  const history = await readHistory();
+  if (!history.length) { flashStatus(msg('stNoHistory')); return; }
+  downloadFile(`claude-usage-history-${exportStamp()}.csv`, 'text/csv', buildCsvExport(history));
+  flashStatus(msg('stExported'));
+});
+
+// ─── Review link ─────────────────────────────────────────────────────────────
+
+const reviewLink = document.getElementById('reviewLink');
+if (reviewLink) {
+  // Firefox goes to the add-on's page, where the rating box is; Edge has no
+  // link to its reviews, so the hint says where to scroll (see popup.js).
+  const isEdge = navigator.userAgent.includes('Edg/');
+  reviewLink.href = navigator.userAgent.includes('Firefox')
+    ? 'https://addons.mozilla.org/firefox/addon/claude-usage-meter/'
+    : isEdge
+      ? 'https://microsoftedge.microsoft.com/addons/detail/ilidbhklkpefboidlfeoiiacepcefinp'
+      : 'https://chromewebstore.google.com/detail/bfhdcfiigpaaopklllpobkheakpigbfo/reviews?utm_source=extension&utm_medium=options&utm_campaign=review';
+  if (isEdge) reviewLink.after(` · ${msg('reviewWhereEdge')}`);
+}
+
+// ─── Pro waitlist link ───────────────────────────────────────────────────────
+
+// claude-monitor.com comes in the same languages as this UI. Spanish keeps the
+// slugs of the first Spanish site, the rest put /<lang> before the English
+// slug, and every other UI language (shown in English) gets the English page.
+// Same rule as siteUrl() in popup.js.
+function siteUrl(page, rest = '') {
+  const lang = chrome.i18n.getUILanguage();
+  const base = lang.split('-')[0];
+  const prefix = lang === 'pt-BR' ? '/pt-br'
+    : ['es', 'de', 'fr', 'it', 'ja', 'ko'].includes(base) ? `/${base}` : '';
+  const slug = prefix === '/es' && page === 'getting-started' ? 'guia-de-instalacion' : page;
+  return `https://claude-monitor.com${prefix}/${slug}${rest}`;
+}
+
+const waitlistLink = document.getElementById('waitlistLink');
+if (waitlistLink) waitlistLink.href = siteUrl('pro', '?src=ext-options');
+
+// ─── Windows companion promo ─────────────────────────────────────────────────
+// Shown only on Windows, where the app can actually be installed. The cid is
+// what Partner Center splits campaigns by, so this surface carries its own.
+
+const WIN_PROMO_URL = 'https://apps.microsoft.com/detail/9NNZK4V8CZM0?cid=ext-options';
+
+const winPromoRow  = document.getElementById('winPromoRow');
+const winPromoLink = document.getElementById('winPromoLink');
+
+if (navigator.userAgent.includes('Windows NT') && winPromoRow && winPromoLink) {
+  winPromoLink.href = WIN_PROMO_URL;
+  winPromoRow.style.display = 'block';
+}
