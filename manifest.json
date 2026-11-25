@@ -7,7 +7,7 @@
   "default_locale": "en",
   "author": "Digital Advanced Solutions",
   "minimum_chrome_version": "116",
-  "permissions": ["storage", "alarms"],
+  "permissions": ["storage", "alarms", "nativeMessaging"],
   "optional_permissions": ["notifications", "scripting"],
   "optional_host_permissions": ["https://claude.ai/*"],
   "host_permissions": [

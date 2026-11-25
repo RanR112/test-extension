@@ -15,7 +15,7 @@
       }
     }
   },
-  "permissions": ["storage", "alarms"],
+  "permissions": ["storage", "alarms", "nativeMessaging"],
   "optional_permissions": ["notifications", "scripting"],
   "optional_host_permissions": ["https://claude.ai/*"],
   "host_permissions": [
